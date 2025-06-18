@@ -1,0 +1,23 @@
+---
+- hosts: astra
+  become: yes
+  tasks:
+    - name: Установка iptables
+      apt:
+        name: iptables
+        state: present
+
+    - name: Включение IP forwarding
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        state: present
+        reload: yes
+
+    - name: Настройка NAT для всей подсети
+      iptables:
+        chain: POSTROUTING
+        table: nat
+        source: 192.168.30.0/24
+        out_interface: eth0
+        jump: MASQUERADE
