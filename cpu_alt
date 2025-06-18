@@ -1,0 +1,15 @@
+---
+- hosts: alt
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Установка sysstat
+      command: apt-get -y install sysstat
+
+    - name: Получение информации о CPU
+      command: mpstat 1 1
+      register: CPU
+
+    - name: Вывод информации о процессоре
+      debug:
+        msg: "{{ CPU.stdout_lines }}"
