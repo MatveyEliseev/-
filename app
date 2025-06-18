@@ -64,8 +64,8 @@
                           ydb.Column('name', ydb.PrimitiveType.Utf8)
                       )
                   )
-              except Exception:
-                  pass  # уже есть
+              except Exception as e:
+                  print(f"Не удалось создать таблицу: {e}")
 
           create_table()
 
